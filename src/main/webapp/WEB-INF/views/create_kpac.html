@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New KPac</title>
+</head>
+<body>
+<form action="#" th:method="POST" th:action="@{/}" th:object="${kpac}">
+  <label for="title">Enter title: </label>
+  <input type="text" th:field="*{title}" id="title"/>
+  <br/>
+  <label for="description">Enter description: </label>
+  <input type="text" th:field="*{description}" id="description"/>
+  <br/>
+  <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>

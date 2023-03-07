@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="ISO-8859-1">
+    <link rel="STYLESHEET" type="text/css" href="../../include/dhtmlx.css">
+    <script src="../../include/dhtmlx.js"></script>
+    <meta charset="ISO-8859-1">
     <title>kpac_main</title>
 </head>
 
@@ -10,7 +13,7 @@
 
 <p>Hello world!</p>
 <div>
-    <form th:method="GET" th:action="@{/kpac/sortKPac}" th:object="${myform}">
+    <form th:method="GET" th:action="@{/sort}" th:object="${myform}">
         <a>Sort by:</a><br>
         <!--  example of getting checkbox
         <input type="checkbox" th:text="ID" name="confirm1" th:checked="${confirm1}">-->
@@ -32,7 +35,8 @@
         <button type="submit">Sort</button>
     </form>
 </div>
-
+<br>
+<a style="text-align: center" th:text="Create" th:href="@{/createKpac}"></a>
 <div id="gridbox" style="text-align: center; width:550px;height:700px;"></div>
 <script>
     /* 	function doOnRowSelected(id){
@@ -47,6 +51,10 @@
                  mygrid.cellById(row_id, 7).setValue("");
              }
          }*/
+
+    function sort(myform) {
+
+    }
     function doOnRowSelected(id) {
         alert("Rows with id: " + id + " was selected by user")
     }

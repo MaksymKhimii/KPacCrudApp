@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+
 <head>
-    <title>Select Direct Reports</title>
+    <meta charset="ISO-8859-1">
     <link rel="STYLESHEET" type="text/css" href="../../include/dhtmlx.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="../../include/dhtmlx.js"></script>
     <meta charset="ISO-8859-1">
+    <title>My app</title>
 </head>
+
 <body>
+
 <p>Hello world!</p>
 <div>
-    <form th:method="GET" th:action="@{/rest/sortKPac}" th:object="${myform}">
+    <form th:method="GET" th:action="@{/sortKPac}" th:object="${myform}">
         <a>Sort by:</a><br>
         <!--  example of getting checkbox
         <input type="checkbox" th:text="ID" name="confirm1" th:checked="${confirm1}">-->
@@ -21,18 +26,18 @@
                     th:text="${s}"/>
         </select>
         <a>Filter by:</a>
-        <select th:field="*{filter}">
+        <select th:id="filter" th:field="*{filter}">
             <option value=""> --</option>
             <option th:each="f : ${filter}"
                     th:value="${f}"
-                    th:text="${f}"/>
+                    th:text="${f}"
+                    th:id="${f}"/>
 
         </select>
         <button type="submit">Sort</button>
     </form>
 </div>
-<a style="text-align: center" th:text="Create" th:href="@{/kpac/createKpac}"></a>
-<br>
+
 <div id="gridbox" style="text-align: center; width:550px;height:700px;"></div>
 <script>
     /* 	function doOnRowSelected(id){
@@ -62,8 +67,11 @@
     /* mygrid.attachEvent("onCheck", doOnChecked);*/
     mygrid.attachEvent("onRowSelect", doOnRowSelected);
     mygrid.init();
-
-    mygrid.load("http://localhost:8080/rest/kpacs", "js");
+    var sortingTitleArray = document.getElementById('sortingTitleArray').value;
+/*    var filter= document.getElementById('filter').value;*/
+/*    var sortingTitleArray = 'title';*/
+    var filter= 'descending'
+    mygrid.load("http://localhost:8080/sortKPac?sortingTitleArray="+sortingTitleArray+"&filter="+filter, "js");
 </script>
 </body>
 </html>

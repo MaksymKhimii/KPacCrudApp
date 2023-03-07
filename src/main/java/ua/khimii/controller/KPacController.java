@@ -1,15 +1,15 @@
 package ua.khimii.controller;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import ua.khimii.model.entity.KPac;
-import ua.khimii.model.dao.KPacDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,21 +53,27 @@ public class KPacController {
 		boolean confirm1 = false;
 		modelAndView.addObject("sort_select", values);
 		modelAndView.addObject("confirm1", confirm1);
-		modelAndView.setViewName("index");
+		modelAndView.setViewName("kpac_main");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value="/kpacs", method=RequestMethod.GET)
 	@ResponseBody
 	public MultipleEmployeeResponse getAllEmployees(Model model) {
-		logger.info("Inside getAllEmployees() method...");
-		System.out.println("yees");
-		System.out.println(kPacService.getAll());
 		List<KPac> allEmployees = kPacService.getAll();
 		return new MultipleEmployeeResponse(allEmployees);
 	}
 
-	@RequestMapping(value = "/sortKPac", method = RequestMethod.GET)
+	@RequestMapping(value="/sortKPac", method=RequestMethod.GET)
+	@ResponseBody
+	public MultipleEmployeeResponse sort(@ModelAttribute("myform") SelectAndFilterKPac myform) {
+		System.out.println(Arrays.toString(myform.getSortingTitleArray()));
+		System.out.println(myform.getFilter());
+		List<KPac> allEmployees = kPacService.filterAndSort(myform);
+		return new MultipleEmployeeResponse(allEmployees);
+	}
+
+	@RequestMapping(value = "/sort", method = RequestMethod.GET)
 	public ModelAndView sortKPacs(@ModelAttribute("myform") SelectAndFilterKPac myform,
 								  Model model) {
 		model.addAttribute("kpacs", kPacService.filterAndSort(myform));
@@ -81,16 +87,26 @@ public class KPacController {
 		filter.add("descending");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("myform", new SelectAndFilterKPac());
-		modelAndView.addObject("filter", filter);
+		modelAndView.addObject("filter", myform.getFilter());
 		modelAndView.addObject("sort_select", values);
 		modelAndView.addObject("kpacs", kPacService.filterAndSort(myform));
-		modelAndView.setViewName("kpac_main");
+		modelAndView.setViewName("sort");
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/createKpac", method = RequestMethod.GET)
 	public String createPage(@ModelAttribute("kpac") KPac kPac) {
 		return "create_kpac";
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String createCPac(@ModelAttribute("kpac") KPac kPac) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String dateNow = dateFormat.format(date);
+		kPac.setDate_of_creation(dateNow);
+		kPacService.save(kPac);
+		return "redirect:/";
 	}
 
 	/*@RequestMapping(value="/employee/{uid}", method=RequestMethod.GET)

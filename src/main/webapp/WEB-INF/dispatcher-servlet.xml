@@ -18,13 +18,25 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></beans:property>
-		<beans:property name="prefix" value="/WEB-INF/views/"/>
-		<beans:property name="suffix" value=".jsp"/>
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+<!--	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>-->
+
+<!--	 Define the MongoTemplate which handles connectivity with MongoDB
+	<beans:bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<beans:constructor-arg name="mongo" ref="mongo" />
+		<beans:constructor-arg name="databaseName" value="ldap" />
 	</beans:bean>
 
-	<!--<beans:bean id="templateResolver"
+	&lt;!&ndash; Factory bean that creates the MongoDB instance &ndash;&gt;
+	<beans:bean id="mongo" class="org.springframework.data.mongodb.core.MongoFactoryBean">
+    	<beans:property name="host" value="localhost"/>
+    </beans:bean>-->
+
+	<beans:bean id="templateResolver"
 		  class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".html" />
@@ -41,7 +53,7 @@
 	<beans:bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
 		<beans:property name="templateEngine" ref="templateEngine" />
 	</beans:bean>
--->
+
 	<!-- Use this post processor to translate any MongoExceptions thrown in @Repository annotated classes -->
 	<beans:bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 

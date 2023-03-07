@@ -56,13 +56,8 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>10.1.6</version>
-		</dependency>
+		</dependency>	
+
 		<!-- Jackson  -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -143,18 +138,13 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
-			<scope>runtime</scope>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring4</artifactId>
 			<version>3.0.9.RELEASE</version>
 		</dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
