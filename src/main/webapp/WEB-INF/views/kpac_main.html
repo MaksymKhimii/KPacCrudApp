@@ -5,7 +5,6 @@
     <meta charset="ISO-8859-1">
     <link rel="STYLESHEET" type="text/css" href="../../include/dhtmlx.css">
     <script src="../../include/dhtmlx.js"></script>
-    <meta charset="ISO-8859-1">
     <title>My app</title>
 </head>
 
@@ -55,11 +54,13 @@
     function sort(myform) {
 
     }
+
     function doOnRowSelected(id) {
         alert("Rows with id: " + id + " was selected by user")
     }
+
     function deleteById(id) {
-        fetch("http://localhost:8080/delete/"+id, {method: 'POST'});
+        fetch("http://localhost:8080/delete/" + id, {method: 'POST'});
         location.reload();
     }
 
@@ -74,8 +75,7 @@
     /* mygrid.attachEvent("onCheck", doOnChecked);*/
     // mygrid.attachEvent("onRowSelect", doOnRowSelected);
     mygrid.attachEvent("onRowDblClicked", deleteById);
-
-    mygrid.attachEvent("onBeforeSelect", function(row,old_row){
+    mygrid.attachEvent("onBeforeSelect", function (row, old_row) {
         return false;
     });
     mygrid.init();

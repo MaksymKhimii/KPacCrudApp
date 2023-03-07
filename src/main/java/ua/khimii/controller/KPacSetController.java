@@ -2,19 +2,25 @@ package ua.khimii.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import ua.khimii.model.entity.KPacSet;
+import ua.khimii.model.entity.filterEntity.CreationKPacSetModel;
 import ua.khimii.model.entity.filterEntity.SelectAndFilterKPac;
 import ua.khimii.model.service.KPacService;
 import ua.khimii.model.service.KPacSetService;
+import ua.khimii.rest.MultipleKPacResponse;
+import ua.khimii.rest.MultipleKPacSetResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/sets")
+@RequestMapping(value = "/sets")
 public class KPacSetController {
     private final KPacSetService kPacSetService;
     private final KPacService kPacService;
@@ -41,6 +47,29 @@ public class KPacSetController {
         modelAndView.addObject("set", kPacSetService.getALl());
         return modelAndView;
     }
+
+
+    @RequestMapping(value="/sets", method=RequestMethod.GET)
+    @ResponseBody
+    public MultipleKPacSetResponse getAllSets(Model model) {
+        List< KPacSet> sets = kPacSetService.getALl();
+        return new MultipleKPacSetResponse(sets);
+    }
+
+    @RequestMapping(value="/createKPacSet", method=RequestMethod.GET)
+    public String createPage(@ModelAttribute("set") CreationKPacSetModel pac,
+                             Model model) {
+        model.addAttribute("kpacs_for_set", kPacService.getAll());
+        model.addAttribute("arrr", new String[]{});
+        return "/create_kpac_set";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String createKPacSet(@ModelAttribute("set") CreationKPacSetModel pac) {
+        kPacSetService.save(pac);
+        return "redirect:/sets/";
+    }
+
 
 /*
     @PostMapping("/delete/{id}")

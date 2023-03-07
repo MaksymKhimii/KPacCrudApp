@@ -37,6 +37,7 @@ public class KPacSetDAO {
                         resultSet.getInt("k_pac_set_id"),
                         resultSet.getString("set_title")
                 );
+                kPacSet.setDelete("delete");
                 kPacSets.add(kPacSet);
             }
         } catch (SQLException e) {

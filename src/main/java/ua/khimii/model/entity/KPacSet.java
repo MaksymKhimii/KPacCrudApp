@@ -11,7 +11,31 @@ public class KPacSet implements Serializable {
     private int id;
     private String title;
     private List<KPac> kPacList;
+    private String delete;
 
+    public KPacSet(int id, String title, String delete) {
+        this.id = id;
+        this.title = title;
+        this.delete = delete;
+        kPacList = new ArrayList<>();
+    }
+
+
+    public List<KPac> getkPacList() {
+        return kPacList;
+    }
+
+    public void setkPacList(List<KPac> kPacList) {
+        this.kPacList = kPacList;
+    }
+
+    public String getDelete() {
+        return delete;
+    }
+
+    public void setDelete(String delete) {
+        this.delete = delete;
+    }
 
     public KPacSet(int id, String title) {
         this.id = id;

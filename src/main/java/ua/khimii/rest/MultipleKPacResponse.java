@@ -4,12 +4,12 @@ import java.util.List;
 
 import ua.khimii.model.entity.KPac;
 
-public class MultipleEmployeeResponse {
+public class MultipleKPacResponse {
 	private int total_count = 0;
 	private int pos = 0;
 	private List<KPac> data;
 	
-	public MultipleEmployeeResponse(List<KPac> data) {
+	public MultipleKPacResponse(List<KPac> data) {
 		this.data = data;
 		total_count = data.size();
 	}

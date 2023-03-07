@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ua.khimii.model.entity.filterEntity.SelectAndFilterKPac;
 import ua.khimii.model.service.KPacService;
-import ua.khimii.rest.MultipleEmployeeResponse;
+import ua.khimii.rest.MultipleKPacResponse;
 
 /**
  * Handles requests for the application home page.
@@ -59,18 +59,18 @@ public class KPacController {
 	
 	@RequestMapping(value="/kpacs", method=RequestMethod.GET)
 	@ResponseBody
-	public MultipleEmployeeResponse getAllEmployees(Model model) {
+	public MultipleKPacResponse getAllEmployees(Model model) {
 		List<KPac> allEmployees = kPacService.getAll();
-		return new MultipleEmployeeResponse(allEmployees);
+		return new MultipleKPacResponse(allEmployees);
 	}
 
 	@RequestMapping(value="/sortKPac", method=RequestMethod.GET)
 	@ResponseBody
-	public MultipleEmployeeResponse sort(@ModelAttribute("myform") SelectAndFilterKPac myform) {
+	public MultipleKPacResponse sort(@ModelAttribute("myform") SelectAndFilterKPac myform) {
 		System.out.println(Arrays.toString(myform.getSortingTitleArray()));
 		System.out.println(myform.getFilter());
 		List<KPac> allEmployees = kPacService.filterAndSort(myform);
-		return new MultipleEmployeeResponse(allEmployees);
+		return new MultipleKPacResponse(allEmployees);
 	}
 
 	@RequestMapping(value = "/sort", method = RequestMethod.GET)
