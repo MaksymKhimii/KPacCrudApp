@@ -4,6 +4,14 @@ public class SelectAndFilterKPac {
    private String[] sortingTitleArray;
    private String filter;
 
+    public SelectAndFilterKPac(String[] sortingTitleArray, String filter) {
+        this.sortingTitleArray = sortingTitleArray;
+        this.filter = filter;
+    }
+
+    public SelectAndFilterKPac() {
+    }
+
     public String getFilter() {
         return filter;
     }

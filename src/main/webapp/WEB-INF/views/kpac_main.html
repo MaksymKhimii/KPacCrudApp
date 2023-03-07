@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="ISO-8859-1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="STYLESHEET" type="text/css" href="../../resources/include/dhtmlx.css">
     <script src="../../resources/include/dhtmlx.js"></script>
     <title>My app</title>
@@ -17,21 +18,21 @@
         <!--  example of getting checkbox
         <input type="checkbox" th:text="ID" name="confirm1" th:checked="${confirm1}">-->
 
-        <select th:field="*{sortingTitleArray}">
+        <select th:id="sort_select" th:field="*{sortingTitleArray}">
             <option value=""> --</option>
             <option th:each="s : ${sort_select}"
                     th:value="${s}"
                     th:text="${s}"/>
         </select>
         <a>Filter by:</a>
-        <select th:field="*{filter}">
+        <select th:id="filter" th:field="*{filter}">
             <option value=""> --</option>
             <option th:each="f : ${filter}"
                     th:value="${f}"
                     th:text="${f}"/>
 
         </select>
-        <button type="submit">Sort</button>
+        <button type="submit" onclick="sort()">Sort</button>
     </form>
 </div>
 <br>
@@ -51,10 +52,6 @@
              }
          }*/
 
-    function sort(myform) {
-
-    }
-
     function doOnRowSelected(id) {
         alert("Rows with id: " + id + " was selected by user")
     }
@@ -62,6 +59,43 @@
     function deleteById(id) {
         fetch("http://localhost:8080/delete/" + id, {method: 'POST'});
         location.reload();
+    }
+    let filter = document.getElementById("filter").value;
+    console.log(filter)
+
+    function sort(){
+        let filter = $("#filter").val();
+        let sort_select = $("#sort_select").val();
+        if(filter === null || filter ===""){
+            filter=null;
+        }
+        if(sort_select === null || sort_select ===""){
+            sort_select=null;
+        }
+        set_cookie("filter", filter);
+        set_cookie("sort_select", sort_select);
+        location.assign("http://localhost:8080/sort/");
+        //mygrid.load("http://localhost:8080/sortKPac/"+filter+"/"+sort_select, "js");
+    }
+
+    function set_cookie(name, value, exp_y, exp_m, exp_d, path, domain, secure) {
+        let cookie_string = name + "=" + escape(value);
+
+        if (exp_y) {
+            let expires = new Date(exp_y, exp_m, exp_d);
+            cookie_string += "; expires=" + expires.toGMTString();
+        }
+
+        if (path)
+            cookie_string += "; path=" + escape(path);
+
+        if (domain)
+            cookie_string += "; domain=" + escape(domain);
+
+        if (secure)
+            cookie_string += "; secure";
+
+        document.cookie = cookie_string;
     }
 
     mygrid = new dhtmlXGridObject('gridbox');

@@ -76,47 +76,41 @@ public class KPacDAO {
     }
 
 
-    public List<KPac> filterAndSorting(SelectAndFilterKPac manipulationList) {
+    public List<KPac> filterAndSorting(String filterBy, String sortBy) {
         List<KPac> kPacs = new ArrayList<>();
         KPac kPac;
-        String filterBy = manipulationList.getFilter();
-        String[] sortBy = manipulationList.getSortingTitleArray();
         StringBuilder preparedQuery = new StringBuilder("SELECT * FROM `k-pac`");
-        if (sortBy.length == 0) {
-            switch (filterBy) {
-                case "ascending":
-                    preparedQuery.append(" ORDER BY k_pac_id");
-                    break;
-                case "descending":
-                    preparedQuery.append(" ORDER BY k_pac_id DESC");
-                    break;
-                default:
-                    return getAllKPacs();
+        if (sortBy == null || sortBy.equals("")) {
+            if (filterBy == null || filterBy.equals("")) {
+                return getAllKPacs();
+            } else {
+                switch (filterBy) {
+                    case "ascending":
+                        preparedQuery.append(" ORDER BY k_pac_id");
+                        break;
+                    case "descending":
+                        preparedQuery.append(" ORDER BY k_pac_id DESC");
+                        break;
+                    default:
+                        return getAllKPacs();
+                }
             }
         } else {
-            for (String s : sortBy) {
-                if (s.equals("id")) {
-                    preparedQuery.append(" ORDER BY k_pac_id");
-                }
-                if (s.equals("title")) {
-                    preparedQuery.append(" ORDER BY title");
-                }
-                if (s.equals("description")) {
-                    preparedQuery.append(" ORDER BY description");
-                }
-                if (s.equals("creation date")) {
-                    preparedQuery.append(" ORDER BY creation_date");
-                }
+            switch (sortBy) {
+                case "id" -> preparedQuery.append(" ORDER BY k_pac_id");
+                case "title" -> preparedQuery.append(" ORDER BY title");
+                case "description" -> preparedQuery.append(" ORDER BY description");
+                case "creation date" -> preparedQuery.append(" ORDER BY creation_date");
             }
-            switch (filterBy) {
-                case "descending":
-                    preparedQuery.append(" DESC");
-                    break;
-                case "ascending":
-                    break;
-                default:
-                    return getAllKPacs();
-            }
+        }
+        switch (filterBy) {
+            case "descending":
+                preparedQuery.append(" DESC");
+                break;
+            case "ascending":
+                break;
+            default:
+                return getAllKPacs();
         }
         try (Connection con = getConnection()) {
             Statement statement = con.createStatement();
@@ -131,7 +125,8 @@ public class KPacDAO {
                 );
                 kPacs.add(kPac);
             }
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) {
             throw new RuntimeException();
         }
         return kPacs;

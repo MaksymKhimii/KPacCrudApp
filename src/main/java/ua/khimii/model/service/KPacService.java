@@ -30,8 +30,8 @@ public class KPacService {
         kPacDAO.create(kPac);
     }
 
-    public List<KPac> filterAndSort(SelectAndFilterKPac manipulationList){
-        return kPacDAO.filterAndSorting(manipulationList);
+    public List<KPac> filterAndSort(String filter, String sortSelect){
+        return kPacDAO.filterAndSorting(filter, sortSelect);
     }
 
     public List<KPac> getKPacSetById(int id) {
