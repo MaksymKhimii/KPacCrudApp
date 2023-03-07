@@ -74,6 +74,10 @@
     /* mygrid.attachEvent("onCheck", doOnChecked);*/
     // mygrid.attachEvent("onRowSelect", doOnRowSelected);
     mygrid.attachEvent("onRowDblClicked", deleteById);
+
+    mygrid.attachEvent("onBeforeSelect", function(row,old_row){
+        return false;
+    });
     mygrid.init();
 
     mygrid.load("http://localhost:8080/kpacs", "js");
