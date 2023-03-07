@@ -2,81 +2,98 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 
 <head>
-  <meta charset="ISO-8859-1">
-  <link rel="STYLESHEET" type="text/css" href="../../include/dhtmlx.css">
-  <script src="../../include/dhtmlx.js"></script>
-  <title>Sets</title>
+    <meta charset="ISO-8859-1">
+    <link rel="STYLESHEET" type="text/css" href="../../resources/include/dhtmlx.css">
+    <script src="../../resources/include/dhtmlx.js"></script>
+    <title>Sets</title>
 </head>
 <body>
 Hello sets!
 <div>
-  <form th:method="GET" th:action="@{/sets/sort}" th:object="${filterForm}">
-    <a>Sort by:</a><br>
+    <form th:method="GET" th:action="@{/sets/sort}" th:object="${filterForm}">
+        <a>Sort by:</a><br>
 
-    <select th:field="*{sortingTitleArray}">
-      <option value=""> --</option>
-      <option th:each="s : ${sort_select}"
-              th:value="${s}"
-              th:text="${s}"/>
-    </select>
-    <a>Filter by:</a>
-    <select th:field="*{filter}">
-      <option value=""> --</option>
-      <option th:each="f : ${filter}"
-              th:value="${f}"
-              th:text="${f}"/>
+        <select th:field="*{sortingTitleArray}">
+            <option value=""> --</option>
+            <option th:each="s : ${sort_select}"
+                    th:value="${s}"
+                    th:text="${s}"/>
+        </select>
+        <a>Filter by:</a>
+        <select th:field="*{filter}">
+            <option value=""> --</option>
+            <option th:each="f : ${filter}"
+                    th:value="${f}"
+                    th:text="${f}"/>
 
-    </select>
-    <button type="submit">Sort</button>
-  </form>
+        </select>
+        <button type="submit">Sort</button>
+    </form>
 </div>
 <a style="text-align: center" th:text="Create" th:href="@{/sets/createKPacSet}"></a>
 <br>
 <div id="gridbox" style="text-align: center; width:650px;height:700px;"></div>
 <script>
-  /* 	function doOnRowSelected(id){
-           alert("Rows with id: "+id+" was selected by user")
-       }
+    /* 	function doOnRowSelected(id){
+             alert("Rows with id: "+id+" was selected by user")
+         }
 
-       function doOnChecked(row_id,cell_index,state) {
-           console.log("Rows with id: " + row_id + " cell_index: " + cell_index + " state: " + state)
-           if (state == true) {
-               mygrid.cellById(row_id, 7).setValue("Daniel Houston");    // are you getting from session???
-           } else {
-               mygrid.cellById(row_id, 7).setValue("");
-           }
-       }*/
+         function doOnChecked(row_id,cell_index,state) {
+             console.log("Rows with id: " + row_id + " cell_index: " + cell_index + " state: " + state)
+             if (state == true) {
+                 mygrid.cellById(row_id, 7).setValue("Daniel Houston");    // are you getting from session???
+             } else {
+                 mygrid.cellById(row_id, 7).setValue("");
+             }
+         }*/
+    function doOnRowSelected(id) {
+        /* fetch("http://localhost:8080/sets/"+id, {method: 'GET'});*/
+        location.assign("http://localhost:8080/sets/getById/" + id);
+        set_cookie("id", id);
+    }
 
-  function sort(myform) {
+    function set_cookie(name, value, exp_y, exp_m, exp_d, path, domain, secure) {
+        let cookie_string = name + "=" + escape(value);
 
-  }
+        if (exp_y) {
+            var expires = new Date(exp_y, exp_m, exp_d);
+            cookie_string += "; expires=" + expires.toGMTString();
+        }
 
-  function doOnRowSelected(id) {
-    alert("Rows with id: " + id + " was selected by user")
-  }
+        if (path)
+            cookie_string += "; path=" + escape(path);
 
-  function deleteById(id) {
-    fetch("http://localhost:8080/delete/" + id, {method: 'POST'});
-    location.reload();
-  }
+        if (domain)
+            cookie_string += "; domain=" + escape(domain);
 
-  mygrid = new dhtmlXGridObject('gridbox');
-  mygrid.setImagePath("include/imgs/");
-  mygrid.setHeader("ID,Title,Delete");
-  mygrid.setInitWidths("200,200,200");
-  mygrid.setColAlign("left,left,left");
-  mygrid.setColumnIds("id,title,delete");
-  mygrid.setColTypes("ro,ed,ed");
-  mygrid.setColSorting("str,str,str");
-  /* mygrid.attachEvent("onCheck", doOnChecked);*/
-  // mygrid.attachEvent("onRowSelect", doOnRowSelected);
-/*  mygrid.attachEvent("onRowDblClicked", deleteById);*/
-  mygrid.attachEvent("onBeforeSelect", function (row, old_row) {
-    return false;
-  });
-  mygrid.init();
+        if (secure)
+            cookie_string += "; secure";
 
-  mygrid.load("http://localhost:8080/sets/sets", "js");
+        document.cookie = cookie_string;
+    }
+
+    function deleteById(id) {
+        fetch("http://localhost:8080/delete/" + id, {method: 'POST'});
+        location.reload();
+    }
+
+    mygrid = new dhtmlXGridObject('gridbox');
+    mygrid.setImagePath("include/imgs/");
+    mygrid.setHeader("ID,Title,Delete");
+    mygrid.setInitWidths("200,200,200");
+    mygrid.setColAlign("left,left,left");
+    mygrid.setColumnIds("id,title,delete");
+    mygrid.setColTypes("ro,ed,ed");
+    mygrid.setColSorting("str,str,str");
+    /* mygrid.attachEvent("onCheck", doOnChecked);*/
+    mygrid.attachEvent("onRowSelect", doOnRowSelected);
+    /*  mygrid.attachEvent("onRowDblClicked", deleteById);*/
+    /*mygrid.attachEvent("onBeforeSelect", function (row, old_row) {
+      return false;
+    });*/
+    mygrid.init();
+
+    mygrid.load("http://localhost:8080/sets/sets", "js");
 </script>
 </body>
 </html>

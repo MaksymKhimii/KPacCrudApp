@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,14 +50,14 @@ public class KPacSetController {
     }
 
 
-    @RequestMapping(value="/sets", method=RequestMethod.GET)
+    @RequestMapping(value = "/sets", method = RequestMethod.GET)
     @ResponseBody
     public MultipleKPacSetResponse getAllSets(Model model) {
-        List< KPacSet> sets = kPacSetService.getALl();
+        List<KPacSet> sets = kPacSetService.getALl();
         return new MultipleKPacSetResponse(sets);
     }
 
-    @RequestMapping(value="/createKPacSet", method=RequestMethod.GET)
+    @RequestMapping(value = "/createKPacSet", method = RequestMethod.GET)
     public String createPage(@ModelAttribute("set") CreationKPacSetModel pac,
                              Model model) {
         model.addAttribute("kpacs_for_set", kPacService.getAll());
@@ -68,6 +69,18 @@ public class KPacSetController {
     public String createKPacSet(@ModelAttribute("set") CreationKPacSetModel pac) {
         kPacSetService.save(pac);
         return "redirect:/sets/";
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public MultipleKPacResponse getKPacSetById(@PathVariable("id") String id) {
+        return new MultipleKPacResponse(kPacService.getKPacSetById(Integer.parseInt(id)));
+    }
+
+    @RequestMapping(value = "getById/{id}", method = RequestMethod.GET)
+    public String getById(@PathVariable("id") String id, Model model) {
+        model.addAttribute("set", kPacService.getKPacSetById(Integer.parseInt(id)));
+        return "set";
     }
 
 
