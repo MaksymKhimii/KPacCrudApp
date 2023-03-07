@@ -32,7 +32,7 @@ Hello sets!
 </div>
 <a style="text-align: center" th:text="Create" th:href="@{/sets/createKPacSet}"></a>
 <br>
-<div id="gridbox" style="text-align: center; width:650px;height:700px;"></div>
+<div id="gridbox" style="text-align: center; width:600px;height:700px;"></div>
 <script>
     /* 	function doOnRowSelected(id){
              alert("Rows with id: "+id+" was selected by user")
@@ -73,7 +73,7 @@ Hello sets!
     }
 
     function deleteById(id) {
-        fetch("http://localhost:8080/delete/" + id, {method: 'POST'});
+        fetch("http://localhost:8080/sets/delete/" + id, {method: 'POST'});
         location.reload();
     }
 
@@ -83,10 +83,11 @@ Hello sets!
     mygrid.setInitWidths("200,200,200");
     mygrid.setColAlign("left,left,left");
     mygrid.setColumnIds("id,title,delete");
-    mygrid.setColTypes("ro,ed,ed");
+    mygrid.setColTypes("ro,ed,link");
     mygrid.setColSorting("str,str,str");
     /* mygrid.attachEvent("onCheck", doOnChecked);*/
     mygrid.attachEvent("onRowSelect", doOnRowSelected);
+    mygrid.attachEvent("onRowDblClicked", deleteById);
     /*  mygrid.attachEvent("onRowDblClicked", deleteById);*/
     /*mygrid.attachEvent("onBeforeSelect", function (row, old_row) {
       return false;

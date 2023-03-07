@@ -83,6 +83,12 @@ public class KPacSetController {
         return "set";
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable("id") String id) {
+        System.out.println("id: "+id);
+        kPacSetService.delete(Integer.parseInt(id));
+        return "redirect:/sets/";
+    }
 
 /*
     @PostMapping("/delete/{id}")
