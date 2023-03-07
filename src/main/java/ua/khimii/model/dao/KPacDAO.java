@@ -40,6 +40,7 @@ public class KPacDAO {
                         resultSet.getString("description"),
                         resultSet.getString("creation_date")
                 );
+                kPac.setDelete("delete");
                 kPacs.add(kPac);
             }
         } catch (SQLException e) {

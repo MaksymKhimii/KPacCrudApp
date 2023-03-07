@@ -11,6 +11,23 @@ public class KPac implements Serializable {
     private String title;
     private String description;
     private String date_of_creation;
+    private String delete;
+
+    public KPac(int id, String title, String description, String date_of_creation, String delete) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date_of_creation = date_of_creation;
+        this.delete = delete;
+    }
+
+    public String getDelete() {
+        return delete;
+    }
+
+    public void setDelete(String delete) {
+        this.delete = delete;
+    }
 
     public KPac() {
 

@@ -101,7 +101,6 @@ public class KPacController {
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String createCPac(@ModelAttribute("kpac") KPac kPac) {
-		//TODO change the simple date format to dd-MM-yyyy
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String dateNow = dateFormat.format(date);
@@ -110,6 +109,12 @@ public class KPacController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+	public String delete(@PathVariable("id") int id) {
+		System.out.println("id: "+id);
+		kPacService.delete(id);
+		return "redirect:/";
+	}
 	/*@RequestMapping(value="/employee/{uid}", method=RequestMethod.GET)
 	@ResponseBody
 	public Employee getEmployeeByUID(@PathVariable("uid") String uid) {

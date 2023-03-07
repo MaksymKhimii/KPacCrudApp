@@ -37,7 +37,7 @@
 </div>
 <br>
 <a style="text-align: center" th:text="Create" th:href="@{/createKpac}"></a>
-<div id="gridbox" style="text-align: center; width:550px;height:700px;"></div>
+<div id="gridbox" style="text-align: center; width:650px;height:700px;"></div>
 <script>
     /* 	function doOnRowSelected(id){
              alert("Rows with id: "+id+" was selected by user")
@@ -58,17 +58,22 @@
     function doOnRowSelected(id) {
         alert("Rows with id: " + id + " was selected by user")
     }
+    function deleteById(id) {
+        fetch("http://localhost:8080/delete/"+id, {method: 'POST'});
+        location.reload();
+    }
 
     mygrid = new dhtmlXGridObject('gridbox');
     mygrid.setImagePath("include/imgs/");
-    mygrid.setHeader("ID,Title,Description,Creation Date");
-    mygrid.setInitWidths("100,100,200,150");
-    mygrid.setColAlign("left,left,left,left");
-    mygrid.setColumnIds("id,title,description,date_of_creation");
-    mygrid.setColTypes("ro,ed,ed,ed");
-    mygrid.setColSorting("str,str,str,str");
+    mygrid.setHeader("ID,Title,Description,Creation Date,Delete");
+    mygrid.setInitWidths("100,100,200,150,100");
+    mygrid.setColAlign("left,left,left,left,left");
+    mygrid.setColumnIds("id,title,description,date_of_creation,delete");
+    mygrid.setColTypes("ro,ed,ed,ed,ed");
+    mygrid.setColSorting("str,str,str,str,str");
     /* mygrid.attachEvent("onCheck", doOnChecked);*/
-    mygrid.attachEvent("onRowSelect", doOnRowSelected);
+    // mygrid.attachEvent("onRowSelect", doOnRowSelected);
+    mygrid.attachEvent("onRowDblClicked", deleteById);
     mygrid.init();
 
     mygrid.load("http://localhost:8080/kpacs", "js");
