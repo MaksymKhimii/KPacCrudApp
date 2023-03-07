@@ -1,9 +1,7 @@
 package ua.khimii.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -97,16 +95,6 @@ public class KPacController {
 	@RequestMapping(value = "/createKpac", method = RequestMethod.GET)
 	public String createPage(@ModelAttribute("kpac") KPac kPac) {
 		return "create_kpac";
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public String createCPac(@ModelAttribute("kpac") KPac kPac) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String dateNow = dateFormat.format(date);
-		kPac.setDate_of_creation(dateNow);
-		kPacService.save(kPac);
-		return "redirect:/";
 	}
 
 	/*@RequestMapping(value="/employee/{uid}", method=RequestMethod.GET)
