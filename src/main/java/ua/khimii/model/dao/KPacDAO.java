@@ -3,7 +3,6 @@ package ua.khimii.model.dao;
 import ua.khimii.model.ManagerDB;
 import ua.khimii.model.entity.KPac;
 import org.springframework.stereotype.Repository;
-import ua.khimii.model.entity.filterEntity.SelectAndFilterKPac;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

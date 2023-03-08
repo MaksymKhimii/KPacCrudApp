@@ -3,7 +3,6 @@ package ua.khimii.model.dao;
 import org.springframework.stereotype.Repository;
 import ua.khimii.model.ManagerDB;
 import ua.khimii.model.entity.KPacSet;
-import ua.khimii.model.entity.filterEntity.SelectAndFilterKPac;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -60,10 +59,10 @@ public class KPacSetDAO {
     public List<KPacSet> filterAndSort(String filterBy, String sortBy) {
         List<KPacSet> filtered = new ArrayList<>();
         KPacSet kPacSet;
-        System.out.println("filterBy: "+filterBy);
-        System.out.println("sortBy: "+sortBy);
+        System.out.println("filterBy: " + filterBy);
+        System.out.println("sortBy: " + sortBy);
         StringBuilder preparedQuery = new StringBuilder("SELECT * FROM `k-pac_set`");
-        if (sortBy==null || sortBy.equals("")) {
+        if (sortBy == null || sortBy.equals("")) {
             switch (filterBy) {
                 case "ascending":
                     preparedQuery.append(" ORDER BY k_pac_set_id");
@@ -75,12 +74,12 @@ public class KPacSetDAO {
                     return getALl();
             }
         } else {
-                if (sortBy.equals("id")) {
-                    preparedQuery.append(" ORDER BY k_pac_set_id");
-                }
-                if (sortBy.equals("title")) {
-                    preparedQuery.append(" ORDER BY set_title");
-                }
+            if (sortBy.equals("id")) {
+                preparedQuery.append(" ORDER BY k_pac_set_id");
+            }
+            if (sortBy.equals("title")) {
+                preparedQuery.append(" ORDER BY set_title");
+            }
 
             if (filterBy.equals("descending")) {
                 preparedQuery.append(" DESC");

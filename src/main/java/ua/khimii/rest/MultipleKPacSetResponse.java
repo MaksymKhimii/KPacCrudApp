@@ -1,6 +1,5 @@
 package ua.khimii.rest;
 
-import ua.khimii.model.entity.KPac;
 import ua.khimii.model.entity.KPacSet;
 
 import java.util.List;

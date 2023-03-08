@@ -19,7 +19,6 @@ import ua.khimii.rest.MultipleKPacResponse;
 import ua.khimii.rest.MultipleKPacSetResponse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -54,7 +53,7 @@ public class KPacSetController {
 
     @RequestMapping(value = "/sets", method = RequestMethod.GET)
     @ResponseBody
-    public MultipleKPacSetResponse getAllSets(Model model) {
+    public MultipleKPacSetResponse getAllSets() {
         List<KPacSet> sets = kPacSetService.getALl();
         return new MultipleKPacSetResponse(sets);
     }
@@ -104,9 +103,7 @@ public class KPacSetController {
     }
 
     @RequestMapping(value = "/sort", method = RequestMethod.GET)
-    public ModelAndView sort(@ModelAttribute("myform") SelectAndFilterKPac myform,
-                             Model model) {
-        /*	model.addAttribute("kpacs", kPacService.filterAndSort(myform));*/
+    public ModelAndView sort(@ModelAttribute("myform") SelectAndFilterKPac myform) {
         List<String> values = new ArrayList<>();
         values.add("id");
         values.add("title");

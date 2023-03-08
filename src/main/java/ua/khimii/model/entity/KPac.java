@@ -32,6 +32,7 @@ public class KPac implements Serializable {
     public KPac() {
 
     }
+
     public KPac(String title, String description, String date_of_creation) {
         this.title = title;
         this.description = description;

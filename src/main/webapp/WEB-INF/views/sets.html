@@ -6,14 +6,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="STYLESHEET" type="text/css" href="../../resources/include/dhtmlx.css">
     <script src="../../resources/include/dhtmlx.js"></script>
-    <title>Sets</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    <title>KPac Sets</title>
 </head>
-<body>
-Hello sets!
+<body style="text-align: center">
+<h1>KPac Sets</h1>
 <div>
     <form th:method="GET" th:action="@{/sets/sort}" th:object="${filterForm}">
-        <a>Sort by:</a><br>
-
+        <a>Sort by:</a>
         <select th:id="sort_select" th:field="*{sortingTitleArray}">
             <option value=""> --</option>
             <option th:each="s : ${sort_select}"
@@ -28,32 +28,35 @@ Hello sets!
                     th:text="${f}"/>
 
         </select>
-        <button type="submit" onclick="sort()">Sort</button>
+        <button type="submit" class="button-8"
+                onclick="sort()">Sort
+        </button>
     </form>
 </div>
+<br><br>
 <a style="text-align: center" th:text="Create" th:href="@{/sets/createKPacSet}"></a>
+<br><br>
 <br>
-<div id="gridbox" style="text-align: center; width:600px;height:700px;"></div>
+<div id="gridbox"
+     style="margin-left:auto; margin-right:auto;right:400px; text-align: center; width:600px;height:700px;"></div>
 <script>
     function doOnRowSelected(id) {
         location.assign("http://localhost:8080/sets/getById/" + id);
         set_cookie("id", id);
     }
 
-
-    function sort(){
+    function sort() {
         let filter = $("#filter").val();
         let sort_select = $("#sort_select").val();
-        if(filter === null || filter ===""){
-            filter=null;
+        if (filter === null || filter === "") {
+            filter = null;
         }
-        if(sort_select === null || sort_select ===""){
-            sort_select=null;
+        if (sort_select === null || sort_select === "") {
+            sort_select = null;
         }
         set_cookie("filterSet", filter);
         set_cookie("sort_selectSet", sort_select);
         location.assign("http://localhost:8080/sets/sort/");
-        //mygrid.load("http://localhost:8080/sortKPac/"+filter+"/"+sort_select, "js");
         location.reload();
     }
 
@@ -90,13 +93,10 @@ Hello sets!
     mygrid.setColumnIds("id,title,delete");
     mygrid.setColTypes("ro,ed,link");
     mygrid.setColSorting("str,str,str");
-    /* mygrid.attachEvent("onCheck", doOnChecked);*/
     mygrid.attachEvent("onRowSelect", doOnRowSelected);
     mygrid.attachEvent("onRowDblClicked", deleteById);
-    /*  mygrid.attachEvent("onRowDblClicked", deleteById);*/
-    /*mygrid.attachEvent("onBeforeSelect", function (row, old_row) {
-      return false;
-    });*/
+    mygrid.setStyle("right:400px;text-align:center;background-color:navy;color:black; font-weight:bold;",
+        "text-align:center;", "text-align:center;color:red;", "text-align:center;");
     mygrid.init();
     mygrid.load("http://localhost:8080/sets/sets", "js");
 </script>

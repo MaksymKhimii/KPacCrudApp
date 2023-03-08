@@ -1,99 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
-
 <head>
-  <meta charset="ISO-8859-1">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <link rel="STYLESHEET" type="text/css" href="../../resources/include/dhtmlx.css">
-  <script src="../../resources/include/dhtmlx.js"></script>
-  <title>sortedSets</title>
+    <meta charset="ISO-8859-1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="STYLESHEET" type="text/css" href="../../resources/include/dhtmlx.css">
+    <script src="../../resources/include/dhtmlx.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    <title>KPac Sets</title>
 </head>
 
-<body>
-
-<p>Hello world!</p>
+<body style="text-align: center">
+<h1>KPac Sets</h1>
 <div>
-  <form th:method="GET" th:action="@{/sets/sort}" th:object="${myform}">
-    <a>Sort by:</a><br>
-    <!--  example of getting checkbox
-    <input type="checkbox" th:text="ID" name="confirm1" th:checked="${confirm1}">-->
-
-    <select th:id="sort_select" onchange="setFilter()" th:field="*{sortingTitleArray}">
-      <option value=""> --</option>
-      <option th:each="s : ${sort_select}"
-              th:value="${s}"
-              th:text="${s}"/>
-    </select>
-    <a>Filter by:</a>
-    <select th:id="filter" onchange="setSelect()" th:field="*{filter}">
-      <option value=""> --</option>
-      <option th:each="f : ${filter}"
-              th:value="${f}"
-              th:text="${f}"
-              th:id="${f}"/>
-
-    </select>
-    <button type="submit" onclick="sort()">Sort</button>
-  </form>
+    <form th:method="GET" th:action="@{/sets/sort}" th:object="${myform}">
+        <a>Sort by:</a>
+        <select th:id="sort_select" onchange="setFilter()" th:field="*{sortingTitleArray}">
+            <option value=""> --</option>
+            <option th:each="s : ${sort_select}"
+                    th:value="${s}"
+                    th:text="${s}"/>
+        </select>
+        <a>Filter by:</a>
+        <select th:id="filter" onchange="setSelect()" th:field="*{filter}">
+            <option value=""> --</option>
+            <option th:each="f : ${filter}"
+                    th:value="${f}"
+                    th:text="${f}"
+                    th:id="${f}"/>
+        </select>
+        <button type="submit" class="button-8" onclick="sort()">Sort</button>
+    </form>
 </div>
-
-<div id="gridbox" style="text-align: center; width:550px;height:700px;"></div>
+<br><br>
+<a style="text-align: center" th:text="Create" th:href="@{/sets/createKPacSet}"></a>
+<br><br>
+<br>
+<div id="gridbox"
+     style="margin-left:auto; margin-right:auto;right:400px; text-align: center; width:600px;height:700px;"></div>
 <script>
-  function doOnRowSelected(id) {
-    alert("Rows with id: " + id + " was selected by user")
-  }
-  function setFilter() {
-    let filter = $("#filter").val();
-    set_cookie("filterSet", filter);
-  }
-
-  function setSelect() {
-    let sort_select = $("#sort_select").val();
-    set_cookie("sort_selectSet", sort_select);
-  }
-
-  function get_cookie ( cookie_name )
-  {
-    let results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
-
-    if ( results )
-      return ( unescape ( results[2] ) );
-    else
-      return null;
-  }
-
-  function sort(){
-    document.cookie = "filterSer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "sort_selectSet=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    let filter = $("#filter").val();
-    let sort_select = $("#sort_select").val();
-    if(filter === null || filter ===""){
-      filter=null;
+    function doOnRowSelected(id) {
+        alert("Rows with id: " + id + " was selected by user")
     }
-    if(sort_select === null || sort_select ===""){
-      sort_select=null;
+
+    function setFilter() {
+        let filter = $("#filter").val();
+        set_cookie("filterSet", filter);
     }
+
+    function setSelect() {
+        let sort_select = $("#sort_select").val();
+        set_cookie("sort_selectSet", sort_select);
+    }
+
+    function sort() {
+        document.cookie = "filterSer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "sort_selectSet=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        let filter = $("#filter").val();
+        let sort_select = $("#sort_select").val();
+        if (filter === null || filter === "") {
+            filter = null;
+        }
+        if (sort_select === null || sort_select === "") {
+            sort_select = null;
+        }
         set_cookie("filterSet", filter);
         set_cookie("sort_selectSet", sort_select);
-    // document.cookie = 'filter='+filter+"; sort_select="+sort_select;
-    location.assign("http://localhost:8080/sets/sort/");
-  }
+        location.assign("http://localhost:8080/sets/sort/");
+    }
 
-  mygrid = new dhtmlXGridObject('gridbox');
-  mygrid.setImagePath("include/imgs/");
-  mygrid.setHeader("ID,Title,Delete");
-  mygrid.setInitWidths("200,200,200");
-  mygrid.setColAlign("left,left,left");
-  mygrid.setColumnIds("id,title,delete");
-  mygrid.setColTypes("ro,ed,link");
-  mygrid.setColSorting("str,str,str");
-  /* mygrid.attachEvent("onCheck", doOnChecked);*/
-  mygrid.attachEvent("onRowSelect", doOnRowSelected);
-  mygrid.init();
-
-  /*   let sort_select =
-     let filter = */
-  mygrid.load("http://localhost:8080/sets/sortKPacSets", "js");
+    mygrid = new dhtmlXGridObject('gridbox');
+    mygrid.setImagePath("include/imgs/");
+    mygrid.setHeader("ID,Title,Delete");
+    mygrid.setInitWidths("200,200,200");
+    mygrid.setColAlign("left,left,left");
+    mygrid.setColumnIds("id,title,delete");
+    mygrid.setColTypes("ro,ed,link");
+    mygrid.setColSorting("str,str,str");
+    mygrid.setStyle("right:400px;text-align:center;background-color:navy;color:black; font-weight:bold;",
+        "text-align:center;", "text-align:center;color:red;", "text-align:center;");
+    mygrid.attachEvent("onRowSelect", doOnRowSelected);
+    mygrid.init();
+    mygrid.load("http://localhost:8080/sets/sortKPacSets", "js");
 </script>
 </body>
 </html>

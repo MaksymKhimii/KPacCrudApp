@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="ISO-8859-1">
     <title>New KPacSet</title>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
 </head>
 <body>
+<h1>Creating a new KPacSet: </h1>
 <form action="#" th:method="POST" th:action="@{/sets/}" th:object="${set}">
-    <label for="title">Enter title: </label>
-    <input type="text" th:field="*{kPacSet.title}" id="title"/>
-    <br/>
-    <select th:field="*{kpacs}" multiple>
+    <label for="title">Enter title: </label><br><br/>
+    <input type="text" th:field="*{kPacSet.title}" id="title"/><br/><br/>
+    <label for="kpacs">Select KPacs: </label><br><br/>
+    <select id="kpacs" th:field="*{kpacs}" multiple>
         <option value=""> --</option>
         <option th:each="kpac : ${kpacs_for_set}"
                 th:value="${kpac.getId()}"
                 th:text="${kpac.getTitle()}"/>
-    </select>
-    <input type="submit" value="Create!"/>
+    </select><br><br/><br/>
+    <input type="submit" class="button-8" value="Create!"/>
 </form>
 </body>
 </html>

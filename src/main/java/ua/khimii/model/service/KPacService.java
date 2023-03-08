@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.khimii.model.dao.KPacDAO;
 import ua.khimii.model.entity.KPac;
-import ua.khimii.model.entity.filterEntity.SelectAndFilterKPac;
 
 import java.util.List;
 
@@ -18,19 +17,19 @@ public class KPacService {
         this.kPacDAO = kPacDAO;
     }
 
-    public List<KPac> getAll(){
+    public List<KPac> getAll() {
         return kPacDAO.getAllKPacs();
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         kPacDAO.delete(id);
     }
 
-    public void save(KPac kPac){
+    public void save(KPac kPac) {
         kPacDAO.create(kPac);
     }
 
-    public List<KPac> filterAndSort(String filter, String sortSelect){
+    public List<KPac> filterAndSort(String filter, String sortSelect) {
         return kPacDAO.filterAndSorting(filter, sortSelect);
     }
 

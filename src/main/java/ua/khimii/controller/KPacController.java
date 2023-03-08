@@ -2,7 +2,6 @@ package ua.khimii.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import ua.khimii.model.entity.KPac;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,8 +27,6 @@ import ua.khimii.rest.MultipleKPacResponse;
 @Controller
 public class KPacController {
 
-    private static final Logger logger = LoggerFactory.getLogger(KPacController.class);
-
     @Autowired
     private KPacService kPacService;
 
@@ -39,7 +34,7 @@ public class KPacController {
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home(Model model) {
+    public ModelAndView home() {
         List<String> values = new ArrayList<>();
         values.add("id");
         values.add("title");
@@ -60,7 +55,7 @@ public class KPacController {
 
     @RequestMapping(value = "/kpacs", method = RequestMethod.GET)
     @ResponseBody
-    public MultipleKPacResponse getAllEmployees(Model model) {
+    public MultipleKPacResponse getAllEmployees() {
         List<KPac> allEmployees = kPacService.getAll();
         return new MultipleKPacResponse(allEmployees);
     }
@@ -99,8 +94,7 @@ public class KPacController {
     }
 
     @RequestMapping(value = "/sort", method = RequestMethod.GET)
-    public ModelAndView sort(@ModelAttribute("myform") SelectAndFilterKPac myform,
-                             Model model) {
+    public ModelAndView sort(@ModelAttribute("myform") SelectAndFilterKPac myform) {
         List<String> values = new ArrayList<>();
         values.add("id");
         values.add("title");

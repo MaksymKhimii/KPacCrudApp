@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.khimii.model.dao.KPacSetDAO;
 import ua.khimii.model.entity.KPacSet;
 import ua.khimii.model.entity.filterEntity.CreationKPacSetModel;
-import ua.khimii.model.entity.filterEntity.SelectAndFilterKPac;
 
 import java.util.List;
 

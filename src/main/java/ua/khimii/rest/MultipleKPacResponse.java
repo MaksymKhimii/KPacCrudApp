@@ -5,35 +5,36 @@ import java.util.List;
 import ua.khimii.model.entity.KPac;
 
 public class MultipleKPacResponse {
-	private int total_count = 0;
-	private int pos = 0;
-	private List<KPac> data;
-	
-	public MultipleKPacResponse(List<KPac> data) {
-		this.data = data;
-		total_count = data.size();
-	}
-	
-	public int getPos() {
-		return pos;
-	}
+    private int total_count = 0;
+    private int pos = 0;
+    private List<KPac> data;
 
-	public void setPos(int pos) {
-		this.pos = pos;
-	}
+    public MultipleKPacResponse(List<KPac> data) {
+        this.data = data;
+        total_count = data.size();
+    }
 
-	public int getTotal_count() {
-		return total_count;
-	}
+    public int getPos() {
+        return pos;
+    }
 
-	public void setTotal_count(int total_count) {
-		this.total_count = total_count;
-	}
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
 
-	public List<KPac> getData() {
-		return data;
-	}
-	public void setData(List<KPac> data) {
-		this.data = data;
-	}
+    public int getTotal_count() {
+        return total_count;
+    }
+
+    public void setTotal_count(int total_count) {
+        this.total_count = total_count;
+    }
+
+    public List<KPac> getData() {
+        return data;
+    }
+
+    public void setData(List<KPac> data) {
+        this.data = data;
+    }
 }

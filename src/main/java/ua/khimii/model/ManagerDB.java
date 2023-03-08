@@ -3,18 +3,20 @@ package ua.khimii.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class ManagerDB {
+    private static final ResourceBundle properties;
     private static final String URL;
     private static final String USERNAME;
     private static final String PASSWORD;
     private static ManagerDB instance;
-    private static Connection connection;
 
     static {
-        URL = "jdbc:mysql://localhost:3306/knowledge_package?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-        USERNAME = "Maks_Khimii";
-        PASSWORD = "root";
+        properties = ResourceBundle.getBundle("application");
+        URL = properties.getString("my-sql.url");
+        USERNAME = properties.getString("my-sql.user");
+        PASSWORD = properties.getString("my-sql.password");
     }
 
     private ManagerDB() {
@@ -33,16 +35,8 @@ public class ManagerDB {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         return connection;
-    }
-
-    public static void setAutocommit() {
-        try {
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

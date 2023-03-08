@@ -1,8 +1,8 @@
 package ua.khimii.model.entity.filterEntity;
 
 public class SelectAndFilterKPac {
-   private String[] sortingTitleArray;
-   private String filter;
+    private String[] sortingTitleArray;
+    private String filter;
 
     public SelectAndFilterKPac(String[] sortingTitleArray, String filter) {
         this.sortingTitleArray = sortingTitleArray;
