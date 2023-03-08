@@ -57,15 +57,14 @@ public class KPacSetDAO {
         }
     }
 
-    public List<KPacSet> filterAndSort(SelectAndFilterKPac filterKPacSet) {
+    public List<KPacSet> filterAndSort(String filterBy, String sortBy) {
         List<KPacSet> filtered = new ArrayList<>();
         KPacSet kPacSet;
-        String[] filterBy = filterKPacSet.getSortingTitleArray();
-        String sortBy = filterKPacSet.getFilter();
-
+        System.out.println("filterBy: "+filterBy);
+        System.out.println("sortBy: "+sortBy);
         StringBuilder preparedQuery = new StringBuilder("SELECT * FROM `k-pac_set`");
-        if (filterBy.length == 0) {
-            switch (sortBy) {
+        if (sortBy==null || sortBy.equals("")) {
+            switch (filterBy) {
                 case "ascending":
                     preparedQuery.append(" ORDER BY k_pac_set_id");
                     break;
@@ -76,18 +75,18 @@ public class KPacSetDAO {
                     return getALl();
             }
         } else {
-            for (String s : filterBy) {
-                if (s.equals("id")) {
+                if (sortBy.equals("id")) {
                     preparedQuery.append(" ORDER BY k_pac_set_id");
                 }
-                if (s.equals("title")) {
+                if (sortBy.equals("title")) {
                     preparedQuery.append(" ORDER BY set_title");
                 }
-            }
-            if (sortBy.equals("descending")) {
+
+            if (filterBy.equals("descending")) {
                 preparedQuery.append(" DESC");
             }
         }
+        System.out.println(preparedQuery);
         try (Connection con = getConnection()) {
             Statement statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery(String.valueOf(preparedQuery));
@@ -96,6 +95,7 @@ public class KPacSetDAO {
                         resultSet.getInt("k_pac_set_id"),
                         resultSet.getString("set_title")
                 );
+                kPacSet.setDelete("delete");
                 filtered.add(kPacSet);
             }
         } catch (SQLException e) {

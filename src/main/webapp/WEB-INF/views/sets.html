@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="ISO-8859-1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="STYLESHEET" type="text/css" href="../../resources/include/dhtmlx.css">
     <script src="../../resources/include/dhtmlx.js"></script>
     <title>Sets</title>
@@ -13,21 +14,21 @@ Hello sets!
     <form th:method="GET" th:action="@{/sets/sort}" th:object="${filterForm}">
         <a>Sort by:</a><br>
 
-        <select th:field="*{sortingTitleArray}">
+        <select th:id="sort_select" th:field="*{sortingTitleArray}">
             <option value=""> --</option>
             <option th:each="s : ${sort_select}"
                     th:value="${s}"
                     th:text="${s}"/>
         </select>
         <a>Filter by:</a>
-        <select th:field="*{filter}">
+        <select th:id="filter" th:field="*{filter}">
             <option value=""> --</option>
             <option th:each="f : ${filter}"
                     th:value="${f}"
                     th:text="${f}"/>
 
         </select>
-        <button type="submit">Sort</button>
+        <button type="submit" onclick="sort()">Sort</button>
     </form>
 </div>
 <a style="text-align: center" th:text="Create" th:href="@{/sets/createKPacSet}"></a>
@@ -37,6 +38,23 @@ Hello sets!
     function doOnRowSelected(id) {
         location.assign("http://localhost:8080/sets/getById/" + id);
         set_cookie("id", id);
+    }
+
+
+    function sort(){
+        let filter = $("#filter").val();
+        let sort_select = $("#sort_select").val();
+        if(filter === null || filter ===""){
+            filter=null;
+        }
+        if(sort_select === null || sort_select ===""){
+            sort_select=null;
+        }
+        set_cookie("filterSet", filter);
+        set_cookie("sort_selectSet", sort_select);
+        location.assign("http://localhost:8080/sets/sort/");
+        //mygrid.load("http://localhost:8080/sortKPac/"+filter+"/"+sort_select, "js");
+        location.reload();
     }
 
     function set_cookie(name, value, exp_y, exp_m, exp_d, path, domain, secure) {

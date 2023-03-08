@@ -3,6 +3,7 @@ package ua.khimii.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import ua.khimii.rest.MultipleKPacResponse;
 import ua.khimii.rest.MultipleKPacSetResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -85,56 +87,39 @@ public class KPacSetController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable("id") String id) {
-        System.out.println("id: "+id);
+        System.out.println("id: " + id);
         kPacSetService.delete(Integer.parseInt(id));
         return "redirect:/sets/";
     }
 
-/*
-    @PostMapping("/delete/{id}")
-    public String delete(@PathVariable("id") int id) {
-        kPacSetService.delete(id);
-        return "redirect:/sets";
-    }
-*/
+    @RequestMapping(value = "/sortKPacSets", method = RequestMethod.GET)
+    @ResponseBody
+    public MultipleKPacSetResponse sortKPacs(@CookieValue("filterSet") String filter,
+                                             @CookieValue("sort_selectSet") String sortSelect) {
 
-  /*  @GetMapping("/sort")
-    public ModelAndView sortKPacSet(@ModelAttribute("filterForm") SelectAndFilterKPac filterKPacSet) {
-        ModelAndView modelAndView = new ModelAndView();
+        System.out.println("filterSet: " + filter);
+        System.out.println("sort_selectSet: " + sortSelect);
+        List<KPacSet> allEmployees = kPacSetService.filterAndSort(filter, sortSelect);
+        return new MultipleKPacSetResponse(allEmployees);
+    }
+
+    @RequestMapping(value = "/sort", method = RequestMethod.GET)
+    public ModelAndView sort(@ModelAttribute("myform") SelectAndFilterKPac myform,
+                             Model model) {
+        /*	model.addAttribute("kpacs", kPacService.filterAndSort(myform));*/
         List<String> values = new ArrayList<>();
         values.add("id");
         values.add("title");
+        values.add("description");
+        values.add("creation date");
         List<String> filter = new ArrayList<>();
         filter.add("ascending");
         filter.add("descending");
-        modelAndView.addObject("sort_select", values);
-        modelAndView.addObject("filterForm", new SelectAndFilterKPac());
-        modelAndView.addObject("filter", filter);
-        modelAndView.addObject("set", kPacSetService.filterAndSort(filterKPacSet));
-        modelAndView.setViewName("sets");
-        return modelAndView;
-    }
-
-    @GetMapping("/createKPacSet")
-    public String createPage(@ModelAttribute("set") CreationKPacSetModel pac,
-                             Model model) {
-        model.addAttribute("kpacs_for_set", kPacService.getAll());
-        model.addAttribute("arrr", new String[]{});
-        return "/create_kpac_set";
-    }
-
-    @PostMapping()
-    public String createKPacSet(@ModelAttribute("set") CreationKPacSetModel pac) {
-        kPacSetService.save(pac);
-        return "redirect:/sets";
-    }
-
-    @GetMapping("/set/{id}")
-    public ModelAndView getKPacSetById(@PathVariable("id") String id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("kpacs_by_id",
-                kPacService.getKPacSetById(Integer.parseInt(id)));
-        modelAndView.setViewName("set");
+        modelAndView.addObject("myform", new SelectAndFilterKPac());
+        modelAndView.addObject("filter", filter);
+        modelAndView.addObject("sort_select", values);
+        modelAndView.setViewName("sortedSets");
         return modelAndView;
-    }*/
+    }
 }

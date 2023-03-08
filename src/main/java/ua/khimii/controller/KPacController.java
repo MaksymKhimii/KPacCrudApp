@@ -101,7 +101,6 @@ public class KPacController {
     @RequestMapping(value = "/sort", method = RequestMethod.GET)
     public ModelAndView sort(@ModelAttribute("myform") SelectAndFilterKPac myform,
                              Model model) {
-        /*	model.addAttribute("kpacs", kPacService.filterAndSort(myform));*/
         List<String> values = new ArrayList<>();
         values.add("id");
         values.add("title");
@@ -114,7 +113,6 @@ public class KPacController {
         modelAndView.addObject("myform", new SelectAndFilterKPac());
         modelAndView.addObject("filter", filter);
         modelAndView.addObject("sort_select", values);
-        /*		modelAndView.addObject("kpacs", kPacService.filterAndSort(myform));*/
         modelAndView.setViewName("sort");
         return modelAndView;
     }

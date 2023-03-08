@@ -39,29 +39,10 @@
 <a style="text-align: center" th:text="Create" th:href="@{/createKpac}"></a>
 <div id="gridbox" style="text-align: center; width:650px;height:700px;"></div>
 <script>
-    /* 	function doOnRowSelected(id){
-             alert("Rows with id: "+id+" was selected by user")
-         }
-
-         function doOnChecked(row_id,cell_index,state) {
-             console.log("Rows with id: " + row_id + " cell_index: " + cell_index + " state: " + state)
-             if (state == true) {
-                 mygrid.cellById(row_id, 7).setValue("Daniel Houston");    // are you getting from session???
-             } else {
-                 mygrid.cellById(row_id, 7).setValue("");
-             }
-         }*/
-
-    function doOnRowSelected(id) {
-        alert("Rows with id: " + id + " was selected by user")
-    }
-
     function deleteById(id) {
         fetch("http://localhost:8080/delete/" + id, {method: 'POST'});
         location.reload();
     }
-    let filter = document.getElementById("filter").value;
-    console.log(filter)
 
     function sort(){
         let filter = $("#filter").val();

@@ -27,8 +27,8 @@ public class KPacSetService {
         kPacSetDAO.delete(id);
     }
 
-    public List<KPacSet> filterAndSort(SelectAndFilterKPac filterKPacSet) {
-        return kPacSetDAO.filterAndSort(filterKPacSet);
+    public List<KPacSet> filterAndSort(String filter, String sortSelect) {
+        return kPacSetDAO.filterAndSort(filter, sortSelect);
     }
 
     public void save(CreationKPacSetModel kPacSet) {
